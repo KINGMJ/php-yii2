@@ -225,4 +225,9 @@ class SiteController extends Controller
 			return $this->render('entry' , ['model' => $model]);
 		}
 	}
+
+	public function actionEntry2() {
+		$model = new EntryForm();
+		echo $model->getAttributeLabel("name");
+	}
 }

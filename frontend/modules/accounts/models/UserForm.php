@@ -1,12 +1,10 @@
 <?php
 
-
-namespace frontend\models;
-
+namespace frontend\modules\accounts\models;
 
 use yii\base\Model;
 
-class EntryForm extends Model
+class UserForm extends Model
 {
 	public $name;
 	public $email;
