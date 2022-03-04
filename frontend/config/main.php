@@ -30,6 +30,7 @@ return [
 				[
 					'class' => 'yii\log\FileTarget' ,
 					'levels' => ['error' , 'warning'] ,
+					'logFile' => '@runtime/logs/test.log' ,
 				] ,
 			] ,
 		] ,
@@ -49,5 +50,10 @@ return [
 
 	'modules' => [
 		'accounts' => 'frontend\modules\accounts\Module'
-	]
+	] ,
+
+	'as main-app-filter' => [
+		'class' => frontend\filters\MainAppFilter::class ,
+		'only' => ['accounts/accounts/index']
+	] ,
 ];

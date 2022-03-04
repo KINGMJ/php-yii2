@@ -12,9 +12,18 @@ use yii\web\Controller;
 class AccountsController extends Controller
 {
 
+	public function behaviors(): array {
+		return [
+			[
+				'class' => 'frontend\modules\accounts\filters\ActionTimeFilter' ,
+				'only' => ['index' , 'user']
+			]
+		];
+	}
+
 	public function actionIndex() {
 		$user = new UserForm();
-		echo $user->getAttributeLabel("name");
+		echo $user->getAttributeLabel("name") . '<br/>';
 	}
 
 	public function actionUser() {
