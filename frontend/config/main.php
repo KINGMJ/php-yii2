@@ -22,8 +22,14 @@ return [
 			'identityCookie' => ['name' => '_identity-frontend' , 'httpOnly' => TRUE] ,
 		] ,
 		'session' => [
-			// this is the name of the session cookie used for login on the frontend
 			'name' => 'advanced-frontend' ,
+			'class' => 'yii\redis\Session' ,
+			'redis' => [
+				'hostname' => 'redis5' ,
+				'port' => 6379 ,
+				'password' => 123456 ,
+				'database' => 0 ,
+			] ,
 		] ,
 		'log' => [
 			'traceLevel' => YII_DEBUG ? 3 : 0 ,
