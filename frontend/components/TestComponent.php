@@ -13,7 +13,7 @@ class TestComponent extends BaseObject
 
 	public function __construct($params1 , $params2 , $config = []) {
 		print_r("这是一个组件\n");
-		echo $params1 . $params2 . '\n';
+		print_r($params1 . $params2);
 		parent::__construct($config);
 	}
 
@@ -27,5 +27,9 @@ class TestComponent extends BaseObject
 
 	public function test() {
 		echo "调用组件里的方法\n";
+	}
+
+	public function test2() {
+		echo "被触发";
 	}
 }
