@@ -31,4 +31,12 @@ class RequestController extends Controller
 		}
 		return ['session' => 'no session'];
 	}
+
+	// 错误处理
+	public function actionError() {
+		Yii::trace('trace log message');
+		Yii::info('info log message');
+		Yii::warning('warning log message');
+		Yii::error('error log message');
+	}
 }
