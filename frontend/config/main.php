@@ -10,11 +10,14 @@ return [
 	'id' => 'app-frontend' ,
 	'basePath' => dirname(__DIR__) ,
 	'bootstrap' => ['log'] ,
-	'controllerNamespace' => 'frontend\controllers' ,
+	'controllerNamespace' => 'frontend\interfaces\facade' ,
 	'components' => [
 		'request' => [
-			'csrfParam' => '_csrf' ,
+			'csrfParam' => '_csrf-frontend' ,
 			'enableCsrfValidation' => FALSE ,
+			'parsers' => [
+				'application/json' => 'yii\web\JsonParser' ,
+			]
 		] ,
 		'user' => [
 			'identityClass' => 'common\models\User' ,
@@ -22,14 +25,8 @@ return [
 			'identityCookie' => ['name' => '_identity-frontend' , 'httpOnly' => TRUE] ,
 		] ,
 		'session' => [
+			// this is the name of the session cookie used for login on the frontend
 			'name' => 'advanced-frontend' ,
-			'class' => 'yii\redis\Session' ,
-			'redis' => [
-				'hostname' => 'redis5' ,
-				'port' => 6379 ,
-				'password' => 123456 ,
-				'database' => 0 ,
-			] ,
 		] ,
 		'log' => [
 			'traceLevel' => YII_DEBUG ? 3 : 0 ,
@@ -37,7 +34,6 @@ return [
 				[
 					'class' => 'yii\log\FileTarget' ,
 					'levels' => ['error' , 'warning'] ,
-					'logFile' => '@runtime/logs/test.log' ,
 				] ,
 			] ,
 		] ,
@@ -47,20 +43,13 @@ return [
 
 		'urlManager' => [
 			'enablePrettyUrl' => TRUE ,
+			'enableStrictParsing' => TRUE ,
 			'showScriptName' => FALSE ,
 			'rules' => [
+				['class' => 'yii\rest\UrlRule' , 'controller' => 'project'] ,
 			] ,
 		]
 		,
 	] ,
 	'params' => $params ,
-
-	'modules' => [
-		'accounts' => 'frontend\modules\accounts\Module'
-	] ,
-
-	'as main-app-filter' => [
-		'class' => frontend\filters\MainAppFilter::class ,
-		'only' => ['accounts/accounts/index']
-	] ,
 ];

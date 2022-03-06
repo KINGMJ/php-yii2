@@ -1,8 +1,7 @@
 <?php
 
-namespace frontend\controllers;
+namespace frontend\interfaces\facade;
 
-use frontend\models\EntryForm;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -195,39 +194,5 @@ class SiteController extends Controller
 		return $this->render('resetPassword' , [
 			'model' => $model ,
 		]);
-	}
-
-	// 新增一个 say action
-	public function actionSay($message = 'Hello') {
-		return $this->render('say' , ['message' => $message]);
-	}
-
-	// 新建一个 entry action
-	public function actionEntry1() {
-		$model = new EntryForm();
-		$model->name = 'jack';
-		$model->email = 'bad';
-		if ($model->validate()) {
-			echo "验证成功";
-		} else {
-			print_r($model->getErrors());
-			// Array ( [email] => Array ( [0] => Email is not a valid email address. ) )
-		}
-	}
-
-	public function actionEntry() {
-		$model = new EntryForm();
-		$post = Yii::$app->request->post();
-		if ($post && $model->validate()) {
-			return $this->render('entry-confirm' , ['model' => $model]);
-		} else {
-			// 无论是初始化显示还是数据验证错误
-			return $this->render('entry' , ['model' => $model]);
-		}
-	}
-
-	public function actionEntry2() {
-		$model = new EntryForm();
-		echo $model->getAttributeLabel("name");
 	}
 }
