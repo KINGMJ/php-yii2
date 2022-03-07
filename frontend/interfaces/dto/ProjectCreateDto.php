@@ -12,7 +12,7 @@ class ProjectCreateDto extends Model
 	public $dept;
 	public $projectName;
 	public $projectType;
-	public $projectDes;
+	public $projectDescription;
 	public $templateId;
 	public $teamCount;
 	public $timezoneOffset;
@@ -20,7 +20,10 @@ class ProjectCreateDto extends Model
 
 	public function rules(): array {
 		return [
-			[['entId' , 'dept' , 'projectName'] , 'required']
+			// 必须要验证的
+			[['entId' , 'dept' , 'projectName' , 'projectType'] , 'required'] ,
+			// safe 属性，不需要进行验证
+			[['projectDescription' , 'templateId' , 'teamCount' , 'timezoneOffset'] , 'safe']
 		];
 	}
 
