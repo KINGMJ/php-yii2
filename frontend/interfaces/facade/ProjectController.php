@@ -1,13 +1,8 @@
 <?php
 
-
 namespace frontend\interfaces\facade;
 
-
-use frontend\interfaces\dto\ProjectCreateForm;
-use frontend\models\ContactForm;
-use Yii;
-use yii\base\BaseObject;
+use frontend\interfaces\dto\ProjectCreateDto;
 use yii\rest\Controller;
 use frontend\interfaces\assembler\ProjectAssembler;
 
@@ -18,31 +13,10 @@ class ProjectController extends Controller
 	}
 
 	public function actionCreate() {
+		$project = (new ProjectAssembler())->toEntity(new ProjectCreateDto());
 
-		$model = new ContactForm();
-
-		$model->load(\Yii::$app->request->post());
-
-
-		//print_r(Yii::$app->request->bodyParams);
+		print_r($project);
 
 
-		if ( ! $model->validate()) {
-			print_r("错误");
-		} else {
-			print_r($model);
-			exit;
-		}
-		//$posts = Yii::$app->request->bodyParams;
-		//
-		//
-		//$modle = new ContactForm();
-		//
-		//print_r($modle->load($posts));
-		////print_r($modle->load($posts , 'ProjectCreateForm'));
-		//
-		//
-		//$project = (new ProjectAssembler())->toEntity(new ProjectCreateForm());
-		////print_r($project);
 	}
 }

@@ -6,7 +6,7 @@ namespace frontend\interfaces\dto;
 
 use yii\base\Model;
 
-class ProjectCreateForm extends Model
+class ProjectCreateDto extends Model
 {
 	public $entId;
 	public $dept;
@@ -20,7 +20,7 @@ class ProjectCreateForm extends Model
 
 	public function rules(): array {
 		return [
-			//[['entId' , 'dept' , 'projectName'] , 'required']
+			[['entId' , 'dept' , 'projectName'] , 'required']
 		];
 	}
 
