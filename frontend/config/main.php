@@ -46,6 +46,11 @@ return [
 				['class' => 'yii\rest\UrlRule' , 'controller' => 'ent'] ,
 			] ,
 		] ,
+		'modules' => [
+			'ent' => [
+				'class' => 'frontend\modules\ent\infrastructure\config\Module' ,
+			] ,
+		] ,
 	] ,
 	'params' => $params ,
 ];
