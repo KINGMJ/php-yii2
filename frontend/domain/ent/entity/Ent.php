@@ -31,7 +31,9 @@ class Ent extends ActiveRecord
 
 	public function rules(): array {
 		return [
-			[['ent_name' , 'user_count' , 'expired_date' , 'create_datetime' , 'timezone_offset'] , 'required']
+			[['ent_name' , 'user_count' , 'expired_date' , 'create_datetime' , 'timezone_offset'] , 'required'] ,
+			//// safe 属性，不需要进行验证
+			//[['owner_id' , 'status' , 'is_on_trial'] , 'safe']
 		];
 	}
 }
