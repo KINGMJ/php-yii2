@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\ent;
+namespace frontend\modules\ents\infrastructure\config;
 
 /**
  * ent module definition class
@@ -10,7 +10,8 @@ class Module extends \yii\base\Module
 	/**
 	 * @inheritdoc
 	 */
-	public $controllerNamespace = 'frontend\modules\ent\interfaces\facade';
+	public $controllerNamespace = 'frontend\modules\ents\interfaces\facade';
+	public $defaultRoute = 'ent';
 
 	/**
 	 * @inheritdoc

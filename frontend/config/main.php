@@ -43,12 +43,12 @@ return [
 			'enablePrettyUrl' => TRUE ,
 			'showScriptName' => FALSE ,
 			'rules' => [
-				['class' => 'yii\rest\UrlRule' , 'controller' => 'ent'] ,
+				['class' => 'yii\rest\UrlRule' , 'controller' => ['ents' => 'ents/ent' , 'test']] ,
 			] ,
-		] ,
-		'modules' => [
-			'ent' => 'frontend\modules\ent\Module' ,
 		] ,
 	] ,
 	'params' => $params ,
+	'modules' => [
+		'ents' => 'frontend\modules\ents\infrastructure\config\Module'
+	] ,
 ];
