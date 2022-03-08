@@ -47,7 +47,6 @@ return [
 			] ,
 		] ,
 		'modules' => [
-			'class' => [] ,
 			'ent' => 'frontend\modules\ent\Module' ,
 		] ,
 	] ,
