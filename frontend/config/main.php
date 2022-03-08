@@ -47,9 +47,8 @@ return [
 			] ,
 		] ,
 		'modules' => [
-			'ent' => [
-				'class' => 'frontend\modules\ent\infrastructure\config\Module' ,
-			] ,
+			'class' => [] ,
+			'ent' => 'frontend\modules\ent\Module' ,
 		] ,
 	] ,
 	'params' => $params ,
