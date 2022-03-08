@@ -8,19 +8,19 @@ use yii\base\Model;
 
 class EntCreateDto extends Model
 {
-	public $entName;
+	public $ent_name;
 	public $contact;
-	public $entDesc;
-	public $userCount;
-	public $countryCode;
-	public $phoneNumber;
+	public $ent_desc;
+	public $user_count;
+	public $country_code;
+	public $phone_number;
 
 	public function rules(): array {
 		return [
 			// 必须要验证的
-			[['entName' , 'contact' , 'userCount'] , 'required'] ,
+			[['ent_name' , 'contact' , 'user_count'] , 'required'] ,
 			// safe 属性，不需要进行验证
-			[['entDesc' , 'countryCode' , 'phoneNumber'] , 'safe']
+			[['ent_desc' , 'country_code' , 'phone_number'] , 'safe']
 		];
 	}
 }

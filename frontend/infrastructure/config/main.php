@@ -60,7 +60,9 @@ return [
 			'enableStrictParsing' => TRUE ,
 			'showScriptName' => FALSE ,
 			'rules' => [
-				['class' => 'yii\rest\UrlRule' , 'controller' => 'project'] ,
+				['class' => 'yii\rest\UrlRule' , 'controller' =>
+					['project' , 'ent']
+				] ,
 			] ,
 		]
 		,
