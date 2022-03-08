@@ -21,14 +21,7 @@ $config = [
 			// 'useFileTransport' to false and configure a transport
 			// for the mailer to send real emails.
 			'useFileTransport' => TRUE ,
-		] ,
-		'urlManager' => [
-			'enablePrettyUrl' => TRUE ,
-			'showScriptName' => FALSE ,
-			'rules' => [
-				['class' => 'yii\rest\UrlRule' , 'controller' => 'ent'] ,
-			] ,
-		] ,
+		]
 	]
 ];
 
