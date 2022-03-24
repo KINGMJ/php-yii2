@@ -8,11 +8,22 @@ use yii\rest\Controller;
 
 class EntController extends Controller
 {
+
+	// 加载企业列表
 	public function actionIndex() {
-		print_r("11111");
+
 	}
 
+	// 加载一个企业
 	public function actionView() {
-		print_r("22222");
+
+	}
+
+
+	/**
+	 * 创建一个企业
+	 */
+	public function actionCreate() {
+
 	}
 }
