@@ -47,6 +47,7 @@ return [
 					'controller' => [
 						'ents' => 'ents/ent' ,
 						'tasks' => 'tasks/task' ,
+						'users' => 'users/user' ,
 						'test'
 					]
 				] ,
@@ -70,5 +71,6 @@ return [
 	'modules' => [
 		'ents' => 'frontend\modules\ents\infrastructure\config\Module' ,
 		'tasks' => 'frontend\modules\tasks\infrastructure\config\Module' ,
+		'users' => 'frontend\modules\users\infrastructure\config\Module' ,
 	] ,
 ];
