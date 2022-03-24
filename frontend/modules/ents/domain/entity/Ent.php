@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\domain\ent\entity;
+namespace frontend\modules\ents\domain\entity;
 
 
 use yii\db\ActiveRecord;
@@ -21,18 +21,37 @@ use yii\db\ActiveRecord;
  * @property string $contact            联系方式
  * @property int    $create_from        从哪里创建的
  */
-class Ent extends ActiveRecord
-{
+class Ent extends ActiveRecord {
+
 
 	public static function tableName(): string {
-		return 'ent';
+		return 'le_ent';
 	}
 
 	public function rules(): array {
 		return [
 			[['ent_name' , 'user_count' , 'expired_date' , 'create_datetime' , 'timezone_offset'] , 'required'] ,
-			//// safe 属性，不需要进行验证
-			//[['owner_id' , 'status' , 'is_on_trial'] , 'safe']
+			// safe 属性，不需要进行验证
+			[['owner_id' , 'status' , 'is_on_trial'] , 'safe']
+		];
+	}
+
+	/**
+	 * fields 重写字段，可以重新定义模型里的字段，对于db里不需要的字段可以过滤掉
+	 * @return array
+	 */
+	public function fields(): array {
+		return [
+			// 字段名和属性名相同
+			'ent_id' ,
+			// 前面是属性名，后面是 db 字段名
+			'ent_name1' => 'ent_name' ,
+
+			// 字段名为 "name", 值通过PHP代码返回
+			'name' => function () {
+				return $this->ent_id;
+			} ,
 		];
 	}
 }
+

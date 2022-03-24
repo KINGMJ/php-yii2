@@ -43,7 +43,13 @@ return [
 			'enablePrettyUrl' => TRUE ,
 			'showScriptName' => FALSE ,
 			'rules' => [
-				['class' => 'yii\rest\UrlRule' , 'controller' => ['ents' => 'ents/ent' , 'test']] ,
+				['class' => 'yii\rest\UrlRule' ,
+					'controller' => [
+						'ents' => 'ents/ent' ,
+						'tasks' => 'tasks/task' ,
+						'test'
+					]
+				] ,
 			] ,
 		] ,
 		'response' => [
@@ -55,9 +61,6 @@ return [
 						'success' => $response->isSuccessful ,
 						'data' => $response->data ,
 					];
-					if ($response->isSuccessful) {
-						$response->data['data']['code'] = 200000;
-					}
 					$response->statusCode = 200;
 				}
 			} ,
@@ -65,6 +68,7 @@ return [
 	] ,
 	'params' => $params ,
 	'modules' => [
-		'ents' => 'frontend\modules\ents\infrastructure\config\Module'
+		'ents' => 'frontend\modules\ents\infrastructure\config\Module' ,
+		'tasks' => 'frontend\modules\tasks\infrastructure\config\Module' ,
 	] ,
 ];
