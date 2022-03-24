@@ -3,7 +3,7 @@ return [
 	'components' => [
 		'db' => [
 			'class' => 'yii\db\Connection' ,
-			'dsn' => 'mysql:host=host.docker.internal;dbname=yii2advanced' ,
+			'dsn' => 'mysql:host=host.docker.internal;port=3307;dbname=yii2advanced' ,
 			'username' => 'root' ,
 			'password' => 'leangoo123' ,
 			'charset' => 'utf8' ,
