@@ -62,6 +62,7 @@ return [
 						'success' => $response->isSuccessful ,
 						'data' => $response->data ,
 					];
+					// http 状态码统一使用 200
 					$response->statusCode = 200;
 				}
 			} ,

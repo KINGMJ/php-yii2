@@ -6,8 +6,6 @@ namespace frontend\modules\users\interfaces\assembler;
 use frontend\modules\users\domain\entity\User;
 use frontend\modules\users\interfaces\dto\UserDto;
 use Yii;
-use yii\base\Model;
-use yii\db\ActiveRecord;
 use yii\web\BadRequestHttpException;
 
 class UserAssembler {
@@ -44,9 +42,8 @@ class UserAssembler {
 		return $user;
 	}
 
-
 	/**
-	 * 实体转换成 DTO
+	 * 实体转换成 dto
 	 * @param User $entity
 	 * @return UserDto
 	 */
