@@ -14,11 +14,14 @@ class UserDto extends Model {
 	public $avatar;
 	public $language;
 	public $email;
+	public $nick_name;
 
 	public function rules(): array {
 		return [
 			[['user_id'] , 'required'] ,
 			['email' , 'email'] ,
+			['phone_number' , 'number'] ,
+			['nick_name' , 'string'] ,
 			['avatar' , 'validateAvatar'] ,
 		];
 	}
