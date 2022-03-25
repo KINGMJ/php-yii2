@@ -44,7 +44,15 @@ class UserAssembler {
 		return $user;
 	}
 
-	public static function toDto(ActiveRecord $entity): Model {
-		// TODO: Implement toDto() method.
+
+	/**
+	 * 实体转换成 DTO
+	 * @param User $entity
+	 * @return UserDto
+	 */
+	public static function toDto(User $entity): UserDto {
+		$userDto = new UserDto();
+		$userDto->load($entity->toArray() , '');
+		return $userDto;
 	}
 }

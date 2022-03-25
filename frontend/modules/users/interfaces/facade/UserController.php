@@ -3,6 +3,7 @@
 namespace frontend\modules\users\interfaces\facade;
 
 
+use frontend\modules\users\domain\repository\UserFactory;
 use frontend\modules\users\domain\repository\UserRepoImpl;
 use frontend\modules\users\domain\repository\UserRepoInterface;
 use frontend\modules\users\interfaces\assembler\UserAssembler;
@@ -16,11 +17,13 @@ use yii\rest\Controller;
 class UserController extends Controller {
 
 	// 加载一个用户信息
-	public function actionView($id) {
+	public function actionView($id): UserDto {
+		// 调用仓储层获取user的持久化对象
 		$userPo = UserRepoImpl::findById($id);
-
-
-		return $userPo;
+		// 将持久化对象转换成领域对象
+		$userDo = UserFactory::getUser($userPo);
+		// 将领域对象转换成 DTO，返回给消费方
+		return UserAssembler::toDto($userDo);
 	}
 
 
