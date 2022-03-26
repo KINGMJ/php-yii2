@@ -17,13 +17,13 @@ class UserDto extends Model {
 	public $phone_number;
 	public $avatar;
 	public $language;
-	public $email;
+	public $emails;
 	public $nick_name;
 
 	public function rules(): array {
 		return [
 			['user_id' , 'number'] ,
-			['email' , 'email'] ,
+			['emails' , 'safe'] ,
 			['phone_number' , 'number'] ,
 			['nick_name' , 'string'] ,
 			['avatar' , 'validateAvatar'] ,

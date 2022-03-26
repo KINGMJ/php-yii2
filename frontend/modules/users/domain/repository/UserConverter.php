@@ -4,6 +4,7 @@ namespace frontend\modules\users\domain\repository;
 
 
 use frontend\modules\users\domain\entity\Avatar;
+use frontend\modules\users\domain\entity\Email;
 use frontend\modules\users\domain\entity\User;
 use yii\web\BadRequestHttpException;
 
@@ -39,27 +40,31 @@ class UserConverter {
 	 * @throws BadRequestHttpException
 	 */
 	public static function fromPo(UserPo $userPo): User {
-		$userDo = new User();
+		$user = new User();
 		// 使用 load 进行转换
-		if ( ! $userDo->load($userPo->toArray() , '')) {
-			$errors = $userDo->getFirstErrors();
+		if ( ! $user->load($userPo->toArray() , '')) {
+			$errors = $user->getFirstErrors();
 			throw new BadRequestHttpException($errors , 400002);
 		}
 		// 转换完成，对于一些值对象操作
-		$userDo->avatar = new Avatar([
+		$user->avatar = new Avatar([
 			'letter' => $userPo->head_img_letter ,
 			'img' => $userPo->head_img_name ,
 			'status' => $userPo->head_img_status
 		]);
 
-		// @todo 领域模型的验证规则跟 dto 的验证规则怎么处理，它们实际上做了很多重复的事情，但是又有细微的差别
-		if ( ! $userDo->validate()) {
-			$errors = $userPo->getFirstErrors();
-			$errors = implode("" , $errors);
-			$errors = preg_replace("/。/" , "，" , $errors);
-			$errors = preg_replace('#，$#i' , '。' , $errors);
-			throw new BadRequestHttpException($errors , 400003);
+		// 邮箱实体转换
+		foreach ($userPo->emails as $value) {
+			$user->emails = [];
+			$email = new Email();
+			$email->load($value->toArray() , '');
+			array_push($user->emails , $email);
 		}
-		return $userDo;
+		// @todo 领域模型的验证规则跟 dto 的验证规则怎么处理，它们实际上做了很多重复的事情，但是又有细微的差别
+		if ( ! $user->validate()) {
+			$errors = $userPo->getFirstErrors();
+			throw new BadRequestHttpException(error_format($errors) , 400003);
+		}
+		return $user;
 	}
 }

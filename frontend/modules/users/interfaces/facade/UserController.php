@@ -25,13 +25,13 @@ class UserController extends Controller {
 			throw new NotFoundHttpException('user not found' , 400000);
 		}
 		// 将持久化对象转换成领域对象
-		$userDo = UserConverter::getUser($userPo);
+		$userDo = UserConverter::fromPo($userPo);
 		// 将领域对象转换成 DTO，返回给消费方
 		return UserAssembler::toDto($userDo);
 	}
 
 	// 创建一个用户
-	public function actionCreate() {
+	public function actionCreate(): UserDto {
 		// 将 dto 转换成实体
 		$user = UserAssembler::toEntity(new UserDto());
 		$userPo = UserRepoImpl::save($user);
@@ -47,17 +47,15 @@ class UserController extends Controller {
 	// 更新用户
 	public function actionUpdate($id) {
 		//更新操作先判断资源是否存在
-		$originalUserPo = UserRepoImpl::findById($id);
-		if (empty($originalUserPo)) {
+		$userPo = UserRepoImpl::findById($id);
+		if (empty($userPo)) {
 			throw new NotFoundHttpException('user not found' , 400000);
 		}
 		// 将 dto 转换成实体
 		$user = UserAssembler::toEntity(new UserDto());
+		$userPo = UserRepoImpl::save($user , $userPo);
 
-
-		$userPo = UserRepoImpl::save($user);
-
-		print_r($userPo);
+		//print_r($userPo);
 		//
 		//$user = UserFactory::getUser($userPo);
 		//return UserAssembler::toDto($user);

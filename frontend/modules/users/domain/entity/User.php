@@ -12,7 +12,7 @@ use yii\base\Model;
  * @property int    $phone_number  手机号
  * @property string $nick_name     昵称
  * @property Avatar $avatar        头像 VO（Value Object，值对象）
- * @property string $email         邮箱
+ * @property string $emails        邮箱
  */
 class User extends Model {
 
@@ -20,15 +20,14 @@ class User extends Model {
 	public $phone_number;
 	public $nick_name;
 	public $avatar;
-	public $email;
+	public $emails;
 
 	public function rules(): array {
 		return [
 			[['user_id'] , 'required'] ,
-			['email' , 'email'] ,
 			['phone_number' , 'number'] ,
 			['nick_name' , 'string'] ,
-			['avatar' , 'safe'] ,
+			[['avatar' , 'emails'] , 'safe'] ,
 		];
 	}
 }

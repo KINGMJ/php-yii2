@@ -16,7 +16,10 @@ interface UserRepoInterface {
 	/**
 	 * 保存一个用户
 	 * @param User $user
-	 * @return array
+	 * @return UserPo|null
 	 */
-	public static function save(User $user);
+	public static function save(User $user): ?UserPo;
+
+
+	//public static function update(User $user,)
 }

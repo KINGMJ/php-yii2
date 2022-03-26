@@ -39,8 +39,7 @@ class UserEmailPo extends ActiveRecord {
 	public function fields(): array {
 		$fields = parent::fields();
 		//字段删除
-		unset($fields['status']);
-		$fields['id'] = $fields['user_id'];
+		unset($fields['user_id']);
 		return $fields;
 	}
 }
