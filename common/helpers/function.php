@@ -30,7 +30,7 @@ if ( ! function_exists('response_error')) {
  * 错误转换函数
  */
 if ( ! function_exists('error_format')) {
-	function error_format($errors): array {
+	function error_format($errors): string {
 		$errors = implode("" , $errors);
 		$errors = preg_replace("/。/" , "，" , $errors);
 		return preg_replace('#，$#i' , '。' , $errors);

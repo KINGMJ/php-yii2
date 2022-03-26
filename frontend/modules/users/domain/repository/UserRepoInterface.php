@@ -16,7 +16,7 @@ interface UserRepoInterface {
 	/**
 	 * 保存一个用户
 	 * @param User $user
-	 * @return mixed
+	 * @return array
 	 */
 	public static function save(User $user);
 }

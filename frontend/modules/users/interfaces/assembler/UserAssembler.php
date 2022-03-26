@@ -23,19 +23,14 @@ class UserAssembler {
 
 		// 将params数据填充到 DTO 中，并进行格式校验
 		if ( ! $dto->load($params , '') || ! $dto->validate()) {
-			// @todo 这个可以重构为一个 helper，或者统一处理
 			$errors = $dto->getFirstErrors();
-			$errors = implode("" , $errors);
-			$errors = preg_replace("/。/" , "，" , $errors);
-			$errors = preg_replace('#，$#i' , '。' , $errors);
-			throw new BadRequestHttpException($errors , 400000);
+			throw new BadRequestHttpException(error_format($errors) , 400000);
 		}
 		// 转换成 user Entity
 		$user = new User();
 		$user->attributes = $dto->toArray();
 		return $user;
 	}
-
 
 	/**
 	 * 实体转换成 dto

@@ -7,9 +7,18 @@ use frontend\modules\users\domain\entity\Avatar;
 use frontend\modules\users\domain\entity\User;
 use yii\web\BadRequestHttpException;
 
-class UserFactory {
-
-	public static function createUserPo(User $user): UserPo {
+/**
+ * Data Converter，领域对象和持久化对象的转换
+ * Class UserFactory
+ * @package frontend\modules\users\domain\repository
+ */
+class UserConverter {
+	/**
+	 * @param User $user
+	 * @return UserPo
+	 * @throws BadRequestHttpException
+	 */
+	public static function toPo(User $user): UserPo {
 		$userPo = new UserPo();
 
 		$userPo->phone_number = $user->phone_number;
@@ -18,14 +27,10 @@ class UserFactory {
 
 		if ( ! $userPo->validate()) {
 			$errors = $userPo->getFirstErrors();
-			$errors = implode("" , $errors);
-			$errors = preg_replace("/。/" , "，" , $errors);
-			$errors = preg_replace('#，$#i' , '。' , $errors);
-			throw new BadRequestHttpException($errors , 400004);
+			throw new BadRequestHttpException(error_format($errors) , 400004);
 		}
 		return $userPo;
 	}
-
 
 	/**
 	 * Po 转换成 Do
@@ -33,7 +38,7 @@ class UserFactory {
 	 * @return User
 	 * @throws BadRequestHttpException
 	 */
-	public static function getUser(UserPo $userPo): User {
+	public static function fromPo(UserPo $userPo): User {
 		$userDo = new User();
 		// 使用 load 进行转换
 		if ( ! $userDo->load($userPo->toArray() , '')) {

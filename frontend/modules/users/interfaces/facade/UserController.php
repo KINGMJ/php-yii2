@@ -2,14 +2,16 @@
 
 namespace frontend\modules\users\interfaces\facade;
 
-use frontend\modules\users\domain\repository\UserFactory;
+use frontend\modules\users\domain\repository\UserConverter;
 use frontend\modules\users\domain\repository\UserPo;
 use frontend\modules\users\domain\repository\UserRepoImpl;
 
 use frontend\modules\users\interfaces\assembler\UserAssembler;
 use frontend\modules\users\interfaces\dto\UserDto;
 use yii\rest\Controller;
+use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\ServerErrorHttpException;
 
 
 class UserController extends Controller {
@@ -23,33 +25,43 @@ class UserController extends Controller {
 			throw new NotFoundHttpException('user not found' , 400000);
 		}
 		// 将持久化对象转换成领域对象
-		$userDo = UserFactory::getUser($userPo);
+		$userDo = UserConverter::getUser($userPo);
 		// 将领域对象转换成 DTO，返回给消费方
 		return UserAssembler::toDto($userDo);
 	}
 
-
 	// 创建一个用户
-	public function actionCreate(): ?UserDto {
+	public function actionCreate() {
 		// 将 dto 转换成实体
 		$user = UserAssembler::toEntity(new UserDto());
 		$userPo = UserRepoImpl::save($user);
-
-		$user = UserFactory::getUser($userPo);
-		return UserAssembler::toDto($user);
+		if (empty($userPo)) {
+			throw new ServerErrorHttpException('用户创建失败' , 400000);
+		}
+		// 将持久化对象转换成领域对象
+		$userDo = UserConverter::fromPo($userPo);
+		// 将领域对象转换成 DTO，返回给消费方
+		return UserAssembler::toDto($userDo);
 	}
-
 
 	// 更新用户
 	public function actionUpdate($id) {
-		//// 更新操作先判断资源是否存在
-		//$originalUserPo = UserRepoImpl::findById($id);
-		//if (empty($originalUserPo)) {
-		//	throw new NotFoundHttpException('user not found' , 400000);
-		//}
+		//更新操作先判断资源是否存在
+		$originalUserPo = UserRepoImpl::findById($id);
+		if (empty($originalUserPo)) {
+			throw new NotFoundHttpException('user not found' , 400000);
+		}
 		// 将 dto 转换成实体
 		$user = UserAssembler::toEntity(new UserDto());
 
+
+		$userPo = UserRepoImpl::save($user);
+
+		print_r($userPo);
+		//
+		//$user = UserFactory::getUser($userPo);
+		//return UserAssembler::toDto($user);
+		//
 
 		//$userArr = $user->toArray();
 		//$userArr['id'] = $userArr['user_id'];
@@ -105,7 +117,16 @@ class UserController extends Controller {
 	 * @return string[]
 	 */
 	public function actionSearch(): array {
-		return ['message' => 'search方法'];
+
+		$res = response_success("123");
+
+
+		[$success , $data , $error] = $res;
+		print_r($success);
+		//print_r($data);
+
+
+		//return ['message' => 'search方法'];
 	}
 
 	public function actionSearch2($id) {
