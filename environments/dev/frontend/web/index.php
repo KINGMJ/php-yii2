@@ -8,6 +8,7 @@ require __DIR__ . '/../../common/config/bootstrap.php';
 require __DIR__ . '/../config/bootstrap.php';
 // 常量文件
 require __DIR__ . '/../../common/config/constants.php';
+require __DIR__ . '/../../common/helpers/function.php';
 
 $config = yii\helpers\ArrayHelper::merge(
 	require __DIR__ . '/../../common/config/main.php' ,
