@@ -16,6 +16,7 @@ return [
 			'csrfParam' => '_csrf-frontend' ,
 			'parsers' => [
 				'application/json' => 'yii\web\JsonParser' ,
+				'multipart/form-data' => 'yii\web\MultipartFormDataParser'
 			]
 		] ,
 		'user' => [
@@ -45,10 +46,20 @@ return [
 			'rules' => [
 				['class' => 'yii\rest\UrlRule' ,
 					'controller' => [
-						'ents' => 'ents/ent' ,
 						'tasks' => 'tasks/task' ,
-						'users' => 'users/user' ,
+						'ents' => 'ents/ent' ,
 						'test'
+					]
+				] ,
+				[
+					'class' => 'yii\rest\UrlRule' ,
+					'controller' => [
+						'users' => 'users/user' ,
+					] ,
+					// 配置额外的路由
+					'extraPatterns' => [
+						'GET search' => 'search' ,
+						'GET <id>/search' => 'search2' ,
 					]
 				] ,
 			] ,
