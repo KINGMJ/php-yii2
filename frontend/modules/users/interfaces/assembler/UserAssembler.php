@@ -2,7 +2,6 @@
 
 namespace frontend\modules\users\interfaces\assembler;
 
-
 use frontend\modules\users\domain\entity\User;
 use frontend\modules\users\interfaces\dto\UserDto;
 use Yii;
@@ -18,16 +17,12 @@ class UserAssembler {
 	public static function toEntity(UserDto $dto): User {
 		$request = Yii::$app->request;
 		// 返回所有参数
-		$params = $request->getRawBody();
-		$params = (array)json_decode($params);
+		$params = $request->bodyParams;
+		// 从 form 中获取 user_id
+		$params["user_id"] = Yii::$app->request->get('id');
 
-		if ( ! $dto->load($params , '')) {
-			throw new BadRequestHttpException('' , 400001);
-		}
-		// 从 params 中获取 user_id
-		$dto->user_id = Yii::$app->request->get('id');
-
-		if ( ! $dto->validate()) {
+		// 将params数据填充到 DTO 中，并进行格式校验
+		if ( ! $dto->load($params , '') || ! $dto->validate()) {
 			// @todo 这个可以重构为一个 helper，或者统一处理
 			$errors = $dto->getFirstErrors();
 			$errors = implode("" , $errors);
@@ -35,12 +30,12 @@ class UserAssembler {
 			$errors = preg_replace('#，$#i' , '。' , $errors);
 			throw new BadRequestHttpException($errors , 400000);
 		}
-
 		// 转换成 user Entity
 		$user = new User();
 		$user->attributes = $dto->toArray();
 		return $user;
 	}
+
 
 	/**
 	 * 实体转换成 dto

@@ -23,6 +23,15 @@ class UserEmailPo extends ActiveRecord {
 		return 'lg_user_email';
 	}
 
+
+	public function rules(): array {
+		return [
+			[['user_id'] , 'required'] ,
+			[['email' , 'is_master' , 'is_virtual' , 'status' , 'create_datetime'] , 'safe']
+		];
+	}
+
+
 	/**
 	 * fields 重写字段，可以重新定义模型里的字段，对于db里不需要的字段可以过滤掉
 	 * @return array
@@ -31,6 +40,7 @@ class UserEmailPo extends ActiveRecord {
 		$fields = parent::fields();
 		//字段删除
 		unset($fields['status']);
+		$fields['id'] = $fields['user_id'];
 		return $fields;
 	}
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace frontend\modules\users\domain\repository;
 
 
@@ -9,9 +8,24 @@ use frontend\modules\users\domain\entity\User;
 use yii\web\BadRequestHttpException;
 
 class UserFactory {
-	public function createUserPo(User $user) {
 
+	public static function createUserPo(User $user): UserPo {
+		$userPo = new UserPo();
+
+		$userPo->phone_number = $user->phone_number;
+		$userPo->nick_name = $user->nick_name;
+		$userPo->head_img_letter = $user->avatar['letter'];
+
+		if ( ! $userPo->validate()) {
+			$errors = $userPo->getFirstErrors();
+			$errors = implode("" , $errors);
+			$errors = preg_replace("/。/" , "，" , $errors);
+			$errors = preg_replace('#，$#i' , '。' , $errors);
+			throw new BadRequestHttpException($errors , 400004);
+		}
+		return $userPo;
 	}
+
 
 	/**
 	 * Po 转换成 Do
@@ -26,7 +40,6 @@ class UserFactory {
 			$errors = $userDo->getFirstErrors();
 			throw new BadRequestHttpException($errors , 400002);
 		}
-
 		// 转换完成，对于一些值对象操作
 		$userDo->avatar = new Avatar([
 			'letter' => $userPo->head_img_letter ,
@@ -36,7 +49,10 @@ class UserFactory {
 
 		// @todo 领域模型的验证规则跟 dto 的验证规则怎么处理，它们实际上做了很多重复的事情，但是又有细微的差别
 		if ( ! $userDo->validate()) {
-			$errors = $userDo->getFirstErrors();
+			$errors = $userPo->getFirstErrors();
+			$errors = implode("" , $errors);
+			$errors = preg_replace("/。/" , "，" , $errors);
+			$errors = preg_replace('#，$#i' , '。' , $errors);
 			throw new BadRequestHttpException($errors , 400003);
 		}
 		return $userDo;

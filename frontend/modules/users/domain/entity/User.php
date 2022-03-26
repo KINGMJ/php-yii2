@@ -15,6 +15,7 @@ use yii\base\Model;
  * @property string $email         邮箱
  */
 class User extends Model {
+
 	public $user_id;
 	public $phone_number;
 	public $nick_name;

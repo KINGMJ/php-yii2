@@ -3,7 +3,6 @@
 
 namespace frontend\modules\users\domain\repository;
 
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -37,38 +36,32 @@ class UserPo extends ActiveRecord {
 	}
 
 	/**
+	 * 用于控制块赋值以及字段检测
+	 * @return array[]
+	 */
+	public function rules(): array {
+		return [
+			[['head_img_letter'] , 'required'] ,
+			// 默认值
+			['create_datetime' , 'default' , 'value' => date('Y-m-d H:i:s')] ,
+			['pwd' , 'default' , 'value' => 'a00000'] ,
+			['status' , 'default' , 'value' => 1]
+		];
+	}
+
+	/**
 	 * fields 重写字段，可以重新定义模型里的字段，对于db里不需要的字段可以过滤掉
 	 * @return array
 	 */
 	public function fields(): array {
 		$fields = parent::fields();
-
 		//字段删除
 		unset($fields['pwd']);
 		//字段转换
 		$fields["user_id"] = $fields["id"];
 		$fields["ip"] = $fields["IP"];
 		unset($fields["id"] , $fields['IP']);
-
-		// 执行关联查询
-		// 这种方式每次查询用户都会默认查用户邮箱，会增大db的开销
-		$fields["email"] = function () {
-			$res = $this->getUserEmail()
-				->where(["status" => STATUS_ACTIVE , "is_master" => "Y"])
-				->limit(1)
-				->one();
-			return $res->email;
-		};
 		return $fields;
-	}
-
-	// 关联表，前面是副表id，后面是主表id
-	// 关联查询可以使用 $userPo->userEmail 获取关联对象；
-	// 或者调用 $userPo->getUserEmail() 方法，可以做一些额外的限定，比如 status =1
-	public function getUserEmail(): ActiveQuery {
-		return $this->hasMany(UserEmailPo::class , [
-			'user_id' => 'id'
-		]);
 	}
 }
 
