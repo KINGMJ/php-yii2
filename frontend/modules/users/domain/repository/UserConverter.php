@@ -15,22 +15,30 @@ use yii\web\BadRequestHttpException;
  */
 class UserConverter {
 	/**
+	 * 实体与Po的转换
 	 * @param User $user
 	 * @return UserPo
 	 * @throws BadRequestHttpException
 	 */
-	public static function toPo(User $user): UserPo {
+	public static function toUserPo(User $user): UserPo {
 		$userPo = new UserPo();
-
 		$userPo->phone_number = $user->phone_number;
 		$userPo->nick_name = $user->nick_name;
 		$userPo->head_img_letter = $user->avatar['letter'];
-
 		if ( ! $userPo->validate()) {
 			$errors = $userPo->getFirstErrors();
 			throw new BadRequestHttpException(error_format($errors) , 400004);
 		}
 		return $userPo;
+	}
+
+	public static function toUserEmailPo(User $user): UserEmailPo {
+		$userEmailPo = new UserEmailPo();
+		if ( ! $userEmailPo->load($user->emails[0]->toArray() , '') || ! $userEmailPo->validate()) {
+			$errors = $userEmailPo->getFirstErrors();
+			throw new BadRequestHttpException(error_format($errors) , 400009);
+		}
+		return $userEmailPo;
 	}
 
 	/**
@@ -46,6 +54,7 @@ class UserConverter {
 			$errors = $user->getFirstErrors();
 			throw new BadRequestHttpException($errors , 400002);
 		}
+
 		// 转换完成，对于一些值对象操作
 		$user->avatar = new Avatar([
 			'letter' => $userPo->head_img_letter ,
@@ -60,7 +69,7 @@ class UserConverter {
 			$email->load($value->toArray() , '');
 			array_push($user->emails , $email);
 		}
-		// @todo 领域模型的验证规则跟 dto 的验证规则怎么处理，它们实际上做了很多重复的事情，但是又有细微的差别
+
 		if ( ! $user->validate()) {
 			$errors = $userPo->getFirstErrors();
 			throw new BadRequestHttpException(error_format($errors) , 400003);

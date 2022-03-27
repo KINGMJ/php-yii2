@@ -2,6 +2,7 @@
 
 namespace frontend\modules\users\interfaces\assembler;
 
+use frontend\modules\users\domain\entity\Email;
 use frontend\modules\users\domain\entity\User;
 use frontend\modules\users\interfaces\dto\UserDto;
 use Yii;
@@ -28,18 +29,31 @@ class UserAssembler {
 		}
 		// 转换成 user Entity
 		$user = new User();
-		$user->attributes = $dto->toArray();
+		if ( ! $user->load($dto->toArray() , "") || ! $user->validate()) {
+			$errors = $user->getFirstErrors();
+			throw new BadRequestHttpException(error_format($errors) , 400007);
+		}
+		// 邮箱实体转换
+		$user->emails = [];
+		$email = new Email();
+		$email->email = $dto->email;
+		$email->is_master = 'Y';
+		$email->is_virtual = 'N';
+		array_push($user->emails , $email);
 		return $user;
 	}
 
 	/**
 	 * 实体转换成 dto
-	 * @param User $entity
+	 * @param User $user
 	 * @return UserDto
 	 */
-	public static function toDto(User $entity): UserDto {
-		$userDto = new UserDto();
-		$userDto->load($entity->toArray() , '');
+	public static function toDto(User $user): UserDto {
+		$userDto = new UserDto(['scenario' => UserDto::SCENARIO_VIEW]);
+		if ( ! $userDto->load($user->toArray() , "") || ! $user->validate()) {
+			$errors = $user->getFirstErrors();
+			throw new BadRequestHttpException(error_format($errors) , 400008);
+		}
 		return $userDto;
 	}
 }

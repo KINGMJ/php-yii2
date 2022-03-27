@@ -26,8 +26,9 @@ class UserEmailPo extends ActiveRecord {
 
 	public function rules(): array {
 		return [
-			[['user_id'] , 'required'] ,
-			[['email' , 'is_master' , 'is_virtual' , 'status' , 'create_datetime'] , 'safe']
+			[['user_id'] , 'safe'] ,
+			[['email' , 'is_master' , 'is_virtual' , 'status' , 'create_datetime'] , 'safe'] ,
+			['create_datetime' , 'default' , 'value' => date('Y-m-d H:i:s')] ,
 		];
 	}
 
@@ -40,6 +41,7 @@ class UserEmailPo extends ActiveRecord {
 		$fields = parent::fields();
 		//字段删除
 		unset($fields['user_id']);
+		unset($fields['status']);
 		return $fields;
 	}
 }

@@ -9,7 +9,6 @@ use frontend\modules\users\domain\repository\UserRepoImpl;
 use frontend\modules\users\interfaces\assembler\UserAssembler;
 use frontend\modules\users\interfaces\dto\UserDto;
 use yii\rest\Controller;
-use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 
@@ -25,9 +24,9 @@ class UserController extends Controller {
 			throw new NotFoundHttpException('user not found' , 400000);
 		}
 		// 将持久化对象转换成领域对象
-		$userDo = UserConverter::fromPo($userPo);
+		$user = UserConverter::fromPo($userPo);
 		// 将领域对象转换成 DTO，返回给消费方
-		return UserAssembler::toDto($userDo);
+		return UserAssembler::toDto($user);
 	}
 
 	// 创建一个用户
@@ -54,60 +53,6 @@ class UserController extends Controller {
 		// 将 dto 转换成实体
 		$user = UserAssembler::toEntity(new UserDto());
 		$userPo = UserRepoImpl::save($user , $userPo);
-
-		//print_r($userPo);
-		//
-		//$user = UserFactory::getUser($userPo);
-		//return UserAssembler::toDto($user);
-		//
-
-		//$userArr = $user->toArray();
-		//$userArr['id'] = $userArr['user_id'];
-		//$userArr['head_img_letter'] = $userArr['avatar']['letter'];
-		//$userArr['head_img_name'] = $userArr['avatar']['img'];
-		//$userArr['head_img_status'] = $userArr['avatar']['status'];
-		//unset($userArr['user_id']);
-		//unset($userArr['avatar']);
-		//unset($userArr['email']);
-		//unset($userArr['phone_number']);
-		//
-		////print_r($userArr);
-		//$userPo = new UserPo();
-		//$userPo->load($userArr , '');
-
-		//print_r($userPo);
-		//print_r($userPo->attributes);
-
-		//// 将持久化对象转换成领域对象
-		//$userDo = UserFactory::getUser($userPo);
-		//// 将领域对象转换成 DTO，返回给消费方
-		//return UserAssembler::toDto($userDo);
-		//return $userPo->toArray();
-
-		//$userPo = UserFactory::createUserPo($user);
-
-
-		//return $userPo;
-		//UserRepoImpl::save(UserFactory::createUserPo($user) , $originalUser);
-
-
-		//print_r("<pre>");
-		//
-		//$user->id = $user->user_id;
-		////unset($user->user_id);
-		////$user->head_img_letter = $user->avatar->letter;
-		////$user->head_img_name = $user->avatar->img;
-		////$user->head_img_status = $user->avatar->status;
-		////unset($user->avatar);
-		//
-		//print_r($user->toArray());
-		//
-		//$userPo = new UserPo();
-		//
-		//
-		//$userPo->load($user->toArray() , '');
-		//return $userPo;
-		//UserRepoImpl::save(UserFactory::createUserPo($user) , $originalUser);
 	}
 
 	/**

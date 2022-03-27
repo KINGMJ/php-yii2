@@ -33,10 +33,11 @@ class UserRepoImpl implements UserRepoInterface {
 	 */
 	public static function save(User $user): ?UserPo {
 		// 将 Do 转换成 Po
-		$userPo = UserConverter::toPo($user);
+		$userPo = UserConverter::toUserPo($user);
+		$userEmailPo = UserConverter::toUserEmailPo($user);
 		$userPo->save();
+		$userEmailPo->user_id = $userPo->id;
+		$userEmailPo->save();
 		return UserRepoImpl::findById($userPo->id);
 	}
-
-
 }
