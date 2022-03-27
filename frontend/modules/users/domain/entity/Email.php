@@ -19,7 +19,7 @@ use yii\base\Model;
  * @property string $create_datetime  创建时间
  */
 class Email extends Model {
-	public $user_id;
+	//public $user_id;
 	public $email;
 	public $is_master;
 	public $is_virtual;
