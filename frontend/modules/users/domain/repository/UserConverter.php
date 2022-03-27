@@ -17,14 +17,19 @@ class UserConverter {
 	/**
 	 * 实体与Po的转换
 	 * @param User $user
+	 * @param      $oldUserPo
 	 * @return UserPo
 	 * @throws BadRequestHttpException
 	 */
-	public static function toUserPo(User $user): UserPo {
-		$userPo = new UserPo();
+	public static function toUserPo(User $user , $oldUserPo = NULL): UserPo {
+		$userPo = ! empty($oldUserPo) ? $oldUserPo : new UserPo();
 		$userPo->phone_number = $user->phone_number;
 		$userPo->nick_name = $user->nick_name;
 		$userPo->head_img_letter = $user->avatar['letter'];
+		// 邮箱
+		if ( ! empty($userPo->emails)) {
+			$userPo->emails[0]->email = $user->emails[0]->email;
+		}
 		if ( ! $userPo->validate()) {
 			$errors = $userPo->getFirstErrors();
 			throw new BadRequestHttpException(error_format($errors) , 400004);

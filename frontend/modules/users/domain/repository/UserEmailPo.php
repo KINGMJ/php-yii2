@@ -23,6 +23,14 @@ class UserEmailPo extends ActiveRecord {
 		return 'lg_user_email';
 	}
 
+	/**
+	 * 这个表没有主键，设置一个自定义的主键
+	 * @return string[]
+	 */
+	public static function primaryKey(): array {
+		return ['user_id' , 'email'];
+	}
+
 
 	public function rules(): array {
 		return [

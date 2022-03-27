@@ -3,6 +3,7 @@
 namespace frontend\modules\users\interfaces\facade;
 
 use frontend\modules\users\domain\repository\UserConverter;
+use frontend\modules\users\domain\repository\UserEmailPo;
 use frontend\modules\users\domain\repository\UserPo;
 use frontend\modules\users\domain\repository\UserRepoImpl;
 
@@ -50,9 +51,8 @@ class UserController extends Controller {
 		if (empty($userPo)) {
 			throw new NotFoundHttpException('user not found' , 400000);
 		}
-		// 将 dto 转换成实体
 		$user = UserAssembler::toEntity(new UserDto());
-		$userPo = UserRepoImpl::save($user , $userPo);
+		$userPo = UserRepoImpl::update($user , $userPo);
 	}
 
 	/**
@@ -60,42 +60,9 @@ class UserController extends Controller {
 	 * @return string[]
 	 */
 	public function actionSearch(): array {
-
-		$res = response_success("123");
-
-
-		[$success , $data , $error] = $res;
-		print_r($success);
-		//print_r($data);
-
-
-		//return ['message' => 'search方法'];
+		return ['message' => 'search方法'];
 	}
 
 	public function actionSearch2($id) {
-		//return ["message" => "search带id： $id"];
-
-// 更新操作先判断资源是否存在
-//		$originalUserPo = UserRepoImpl::findById($id);
-
-		//print_r($originalUserPo);
-		$userPo = new UserPo();
-
-
-		$arr = [
-			"user_id" => 495844 ,
-			"phone_number" => 18900000000
-		];
-
-		if ( ! $userPo->load($arr , '')) {
-			return "加载失败";
-		}
-
-		if ( ! $userPo->validate()) {
-			return "错误";
-		}
-
-		return $userPo;
-
 	}
 }

@@ -5,7 +5,7 @@ namespace frontend\modules\users\domain\repository;
 use frontend\modules\users\domain\entity\User;
 use yii\web\Response;
 
-class UserRepoImpl implements UserRepoInterface {
+class UserRepoImpl {
 	/**
 	 * 返回一个用户
 	 * @param $user_id
@@ -38,6 +38,12 @@ class UserRepoImpl implements UserRepoInterface {
 		$userPo->save();
 		$userEmailPo->user_id = $userPo->id;
 		$userEmailPo->save();
+		return UserRepoImpl::findById($userPo->id);
+	}
+
+	public static function update(User $user , $oldUserPo): ?UserPo {
+		$userPo = UserConverter::toUserPo($user , $oldUserPo);
+		$userPo->link('emails' , $userPo->emails[0]);
 		return UserRepoImpl::findById($userPo->id);
 	}
 }
