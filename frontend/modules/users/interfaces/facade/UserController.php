@@ -45,7 +45,7 @@ class UserController extends Controller {
 	}
 
 	// 更新用户
-	public function actionUpdate($id) {
+	public function actionUpdate($id): UserDto {
 		//更新操作先判断资源是否存在
 		$userPo = UserRepoImpl::findById($id);
 		if (empty($userPo)) {
@@ -53,6 +53,13 @@ class UserController extends Controller {
 		}
 		$user = UserAssembler::toEntity(new UserDto());
 		$userPo = UserRepoImpl::update($user , $userPo);
+		if (empty($userPo)) {
+			throw new ServerErrorHttpException('用户创建失败' , 400000);
+		}
+		// 将持久化对象转换成领域对象
+		$userDo = UserConverter::fromPo($userPo);
+		// 将领域对象转换成 DTO，返回给消费方
+		return UserAssembler::toDto($userDo);
 	}
 
 	/**
